@@ -19,15 +19,18 @@ function move()
 	end
 end
 
-function is_not_solid(x1,y1,x2,y2)
+function is_solid(x1,y1,x2,y2)
 	local cellx1 = ((x1-(x1%8))/8)
 	local celly1 = ((y1-(y1%8))/8)
 	local cellx2 = ((x2-(x2%8))/8)
 	local celly2 = ((y2-(y2%8))/8)
-	if fget(mget(cellx1, celly1))==0 or fget(mget(cellx2, celly2))==0 then
-		return false
-	else 
+	if fget(mget(cellx1, celly1),0)
+ or fget(mget(cellx2, celly1),0)
+ or fget(mget(cellx1, celly2),0)
+ or fget(mget(cellx2, celly2),0) then
 		return true
+	else 
+		return false
 	end
 end
 
@@ -36,19 +39,19 @@ function _update()
 	player.lastx=player.x
 	player.cellx=(player.x-(player.x%8))/8
 	player.celly=(player.y-(player.y%8))/8
-	if btn(0) and not is_not_solid(player.x-1,player.y,player.x+7,player.y+8) then
+	if btn(0) and not is_solid(player.x-1,player.y,player.x+7,player.y+7) then
 		player.x-=player.speed
 		move()
 	end
-	if btn(1) and not is_not_solid(player.x+1,player.y,player.x+9,player.y+8) then
+	if btn(1) and not is_solid(player.x+1,player.y,player.x+9,player.y+7) then
 		player.x+=player.speed
 		move()
 	end
-	if btn(2) and not is_not_solid(player.x,player.y-1,player.x+8,player.y+7) then
+	if btn(2) and not is_solid(player.x,player.y-1,player.x+7,player.y+7) then
 		player.y-=player.speed
 		move()
 	end
-	if btn(3) and is_not_solid(player.x,player.y+1,player.x+8,player.y+9) then
+	if btn(3) and not is_solid(player.x,player.y+1,player.x+7,player.y+9) then
 		player.y+=player.speed
 		move()
 	end
@@ -70,11 +73,11 @@ function _draw()
 	cls()
 	map()
 	print(mget(player.cellx,player.celly),0,0,0)
-	print(player.x,0,10,0)
-	print(player.y,0,20,0)
-	print('cell '..player.cellx,15,10,0)
-	print('cell '..player.celly,15,20,0)
-	print(is_solid(player.x,player.y,player.x+8,player.y+8),0,30,0)
+	print(player.x,0,8,0)
+	print(player.y,0,16,0)
+	print('cell '..player.cellx,15,8,0)
+	print('cell '..player.celly,15,16,0)
+	print(is_solid(player.x,player.y,player.x+8,player.y+8),0,24,0)
 	spr(player.sprite,player.x,player.y,1,1,player.rot)
 end
 __gfx__
