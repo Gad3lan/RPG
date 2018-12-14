@@ -19,24 +19,18 @@ function move()
 	if player.sprite>6 then
 		player.sprite=5
 	end
-end
-
-function changemap()
-	if player.y>=128*mapvaluey+120 then
+	
+	if player.y>=118+128*mapvaluey then
 		mapvaluey+=1
-		player.y+=1
 	end
-	if player.y<=128*mapvaluey+8 then
+	if player.y<=4+128*mapvaluey then
 		mapvaluey-=1
-		player.y-=1
 	end
-	if player.x>=128*mapvaluex+120 then
+	if player.x>=120+128*mapvaluex then
 		mapvaluex+=1
-		player.x+=1
 	end
-	if player.x<=128*mapvaluex+8 then
+	if player.x<=8+128*mapvaluex then
 		mapvaluex-=1
-		player.x-=1
 	end
 end
 
@@ -46,9 +40,9 @@ function is_solid(x1,y1,x2,y2)
 	local cellx2 = ((x2-(x2%8))/8)
 	local celly2 = ((y2-(y2%8))/8)
 	if fget(mget(cellx1, celly1),0)
-	or fget(mget(cellx2, celly1),0)
-	or fget(mget(cellx1, celly2),0)
-	or fget(mget(cellx2, celly2),0) then
+ or fget(mget(cellx2, celly1),0)
+ or fget(mget(cellx1, celly2),0)
+ or fget(mget(cellx2, celly2),0) then
 		return true
 	else 
 		return false
@@ -87,15 +81,17 @@ function _update()
 	
 	if mget(player.cellx, player.celly + 1)==16 then
 		player.x=8*23
-		player.y=8*7
-		mapvaluex+=1  
+		player.y=8*7   
 	end
 end
 
 function _draw()
-	changemap()
 	cls()
-	camera(128*mapvaluex,128*mapvaluey)  
+	if mapvaluex>0 then
+		camera(128*mapvaluex,128*mapvaluey)  
+	else
+		camera()
+	end
 	map(0,0,0,0,128,32)
 	print(mget(player.cellx, player.celly), 0, 0, 0)
 	print(player.x, 0+128*mapvaluex, 10, 0)
@@ -105,9 +101,10 @@ function _draw()
 	print('cell '..player.cellx, 15, 10, 0)
 	print('cell '..player.celly, 15, 20, 0)
 	print(is_solid(player.x, player.y,player.x+8,player.y+8), 0, 30, 0)
-	print(110+128*mapvaluex,mapvaluex*128,118,0)
+	print(118+128*mapvaluex,mapvaluex*128,118,0)
 	spr(player.sprite, player.x, player.y, 1, 1, player.rot)
 end
+
 __gfx__
 00000000111111311111131111711111fdfdfdfd0dddd0060dddd0000dddd0000dddd00000000000000000000000000000000000000000000000000000000000
 00000000111111111111131111651113fdfdfdfd0dffff060dffff060dffff040dffff0000000000000000000000000000000000000000000000000000000000
