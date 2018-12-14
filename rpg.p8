@@ -24,19 +24,19 @@ end
 function changemap()
 	if player.y>=128*mapvaluey+120 then
 		mapvaluey+=1
-		player.y+=1
+		player.y+=9
 	end
-	if player.y<=128*mapvaluey+8 then
+	if player.y<=128*mapvaluey then
 		mapvaluey-=1
-		player.y-=1
+		player.y-=9
 	end
 	if player.x>=128*mapvaluex+120 then
 		mapvaluex+=1
-		player.x+=1
+		player.x+=9
 	end
-	if player.x<=128*mapvaluex+8 then
+	if player.x<=128*mapvaluex then
 		mapvaluex-=1
-		player.x-=1
+		player.x-=9
 	end
 end
 
@@ -108,6 +108,7 @@ function _draw()
 	print(110+128*mapvaluex,mapvaluex*128,118,0)
 	spr(player.sprite, player.x, player.y, 1, 1, player.rot)
 end
+
 __gfx__
 00000000111111311111131111711111fdfdfdfd0dddd0060dddd0000dddd0000dddd00000000000000000000000000000000000000000000000000000000000
 00000000111111111111131111651113fdfdfdfd0dffff060dffff060dffff040dffff0000000000000000000000000000000000000000000000000000000000
